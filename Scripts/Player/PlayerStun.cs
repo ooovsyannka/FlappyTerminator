@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class PlayerStun : MonoBehaviour
 {
-    [SerializeField] private float _delay;
+    [SerializeField] private float _restoringDelay;
 
     private Coroutine _restoring;
+    private WaitForSeconds _waitRestoringDelay;
 
     public bool IsStun { get; private set; }
 
     public event Action Stunned;
     public event Action Recovered;
+
+    private void Awake()
+    {
+        _waitRestoringDelay  = new WaitForSeconds(_restoringDelay);
+    }
 
     public void GetStun()
     {
@@ -24,12 +30,9 @@ public class PlayerStun : MonoBehaviour
         _restoring = StartCoroutine(Restoring());
     }
 
-
     private IEnumerator Restoring()
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(_delay);
-
-        yield return waitForSeconds;
+        yield return _waitRestoringDelay;
 
         IsStun = false;
         Recovered?.Invoke();

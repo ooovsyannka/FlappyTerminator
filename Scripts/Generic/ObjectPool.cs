@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
+public class ObjectPool<T> where T : MonoBehaviour
 {
     private Queue<T> _pool = new Queue<T>();
+    private T _prefab;
 
-    public T GetObject(T prefab, Transform parent, out bool isNewObject)
+    public ObjectPool(T prefab) 
+    {
+        _prefab = prefab;
+    }
+
+    public T GetObject( Transform parent, out bool isNewObject)
     {
         if (_pool.Count > 0)
         {
@@ -16,7 +22,7 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
 
         isNewObject = true;
 
-        return CrateObject(prefab, parent);
+        return CrateObject( parent);
     }
 
     public void PutObject(T obj)
@@ -24,9 +30,9 @@ public class ObjectPool<T> : MonoBehaviour where T : MonoBehaviour
         _pool.Enqueue(obj);
     }
 
-    private T CrateObject(T prefab, Transform parent)
+    private T CrateObject( Transform parent)
     {
-        T currentObject = Instantiate(prefab);
+        T currentObject = Object.Instantiate(_prefab);
         currentObject.transform.parent = parent;
         currentObject.gameObject.SetActive(false);
 

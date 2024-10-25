@@ -24,7 +24,17 @@ public abstract class Window : MonoBehaviour
 
     protected abstract void OnButtonClick();
 
-    public abstract void Open();
+    public  void Open()
+    {
+        WindowGroup.alpha = WindowAlpha;
+        CameraRenderer.EndGameBackgroundColor();
+        ActionButton.interactable = true;
+    }
 
-    public abstract void Close();
+    public  void Close()
+    {
+        WindowGroup.alpha = 0;
+        CameraRenderer.StartBackgroundColor();
+        ActionButton.interactable = false;
+    }
 }

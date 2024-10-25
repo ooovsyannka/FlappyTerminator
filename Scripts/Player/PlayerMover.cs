@@ -17,8 +17,6 @@ public class PlayerMover : MonoBehaviour
     private Quaternion _minRotation;
     private Quaternion _maxRotation;
 
-    public event Action MovementRestored;
-
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();

@@ -12,6 +12,5 @@ public class PlayerSounds : Sounds
     private void OnDisable()
     {
         _state.Changed -= PlaySound;
-
     }
 }

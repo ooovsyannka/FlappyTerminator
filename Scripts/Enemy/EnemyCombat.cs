@@ -6,16 +6,16 @@ using UnityEngine;
 
 public class EnemyCombat : MonoBehaviour
 {
-    [SerializeField] private float _shootMaxDelay;
-    [SerializeField] private float _shootMinDelay;
+    [SerializeField] private float _shootDelayTime;
 
     private EnemyState _state;
     private BulletSpawner _bulletSpawner;
-    private Coroutine _shootDelay;
     private Transform _bulletParent;
-
+    private Coroutine _shootDelay;
+    private WaitForSeconds _waitShootDelay;
     private void Awake()
     {
+        _waitShootDelay = new WaitForSeconds(_shootDelayTime);
         _state = GetComponent<EnemyState>();
         _bulletSpawner = GetComponent<BulletSpawner>();
     }
@@ -42,12 +42,9 @@ public class EnemyCombat : MonoBehaviour
 
     private IEnumerator ShootDelay()
     {
-        float randomDelay = UnityEngine.Random.Range(_shootMinDelay, _shootMaxDelay);
-        WaitForSeconds waitForSeconds = new WaitForSeconds(randomDelay);
-
         while (enabled)
         {
-            yield return waitForSeconds;
+            yield return _waitShootDelay;
 
             _state.Change(State.Shoot);
             _bulletSpawner.GetBullet(transform.position, transform, transform.rotation, _bulletParent);

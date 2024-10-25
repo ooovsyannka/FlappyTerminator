@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        _spawner = new Spawner<Enemy>();
+        _spawner = new Spawner<Enemy>(_enemyPrefab);
     }
 
     private void OnEnable()
@@ -42,14 +42,13 @@ public class EnemySpawner : MonoBehaviour
 
         while (enabled)
         {
-            Enemy enemy = _spawner.Spawn(_enemyPrefab, GetSpawnPosition(), transform, out isNewObject);
+            Enemy enemy = _spawner.Spawn(GetSpawnPosition(), transform, out isNewObject);
 
             if (isNewObject)
             {
                 enemy.GetEndGameScreen(_endGameScreen);
                 enemy.GetScoreCount(_scoreCount);
-                enemy.TryGetComponent(out EnemyCombat enemyCombat);
-                enemyCombat.GetBulletParent(_bulletParent);
+                enemy.GetComponent<EnemyCombat>().GetBulletParent(_bulletParent);
             }
 
             enemy.gameObject.SetActive(true);

@@ -11,18 +11,16 @@ public class PlayerCombat : MonoBehaviour
 
     private BulletSpawner _bulletSpawner;
     private Coroutine _shootDelayCoroutine;
-    
+    private WaitForSeconds _waitShootDelay; 
+
     public bool CanShoot { get; private set; }
 
     private void Awake()
     {
         _bulletSpawner = GetComponent<BulletSpawner>();
-    }
-
-    private void Start()
-    {
+        CanShoot = true;
         _bulletSpawner.GetEndGameScreen(_endGameScreen);
-        CanShoot = true;    
+        _waitShootDelay = new WaitForSeconds(_shootDelayTime);
     }
 
     public void Shoot(Quaternion rotation)
@@ -38,9 +36,7 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator ShootDelay()
     {
-        WaitForSeconds waitForSeconds = new WaitForSeconds(_shootDelayTime);
-
-        yield return waitForSeconds;
+        yield return _waitShootDelay;
 
         CanShoot = true;
     }

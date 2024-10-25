@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IInteractable
     private EnemyCollisionHandler _collisionHandler;
     private CircleCollider2D _circleCollider;
     private ScoreCount _scoreCount;
+    private WaitForSeconds _waitDieDelay;
 
     public event Action<Enemy> Died;
 
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour, IInteractable
         _state = GetComponent<EnemyState>();
         _collisionHandler = GetComponent<EnemyCollisionHandler>();
         _circleCollider = GetComponent<CircleCollider2D>();
+        _waitDieDelay = new WaitForSeconds(_dieDelay);
     }
 
     private void OnEnable()
@@ -70,9 +72,7 @@ public class Enemy : MonoBehaviour, IInteractable
         _animation.PlayAnimation(true);
         _combat.StopShoot();
 
-        WaitForSeconds waitForSeconds = new WaitForSeconds(_dieDelay);
-
-        yield return waitForSeconds;
+        yield return _waitDieDelay;
 
         Died?.Invoke(this);
         gameObject.SetActive(false);

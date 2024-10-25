@@ -1,12 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
     [SerializeField] private Bullet _bullet;
 
     private EndGameScreen _endGameScreen;
-    private Spawner<Bullet> _spawner = new Spawner<Bullet>();
+    private Spawner<Bullet> _spawner;
+
+    private void Awake()
+    {
+        _spawner = new Spawner<Bullet>(_bullet);
+    }
 
     private void OnEnable()
     {
@@ -28,7 +32,7 @@ public class BulletSpawner : MonoBehaviour
     {
         bool isNewObject;
 
-        Bullet bullet = _spawner.Spawn(_bullet, spawnPosition, parent, out isNewObject);
+        Bullet bullet = _spawner.Spawn(spawnPosition, parent, out isNewObject);
 
         if (isNewObject)
         {

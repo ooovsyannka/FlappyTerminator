@@ -20,11 +20,11 @@ public abstract class Sounds : MonoBehaviour
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();   
+        _soundHolder = new Dictionary<State, AudioClip>();
     }
 
     private void Start()
     {
-        _soundHolder = new Dictionary<State, AudioClip>();
 
         foreach (AudioClipHolder audioClip in _audioClips)
         {

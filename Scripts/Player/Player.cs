@@ -30,14 +30,12 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         _collisionHandler.CollisionDetected += ProcessCollision;
-        _mover.MovementRestored += _renderer.ChangeToOriginalColor;
         _stun.Recovered += _renderer.ChangeToOriginalColor;
     }
 
     private void OnDisable()
     {
         _collisionHandler.CollisionDetected -= ProcessCollision;
-        _mover.MovementRestored -= _renderer.ChangeToOriginalColor;
         _stun.Recovered -= _renderer.ChangeToOriginalColor;
     }
 
